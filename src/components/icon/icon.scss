@@ -1,0 +1,12 @@
+.icon {
+  display: inline-block;
+  flex-shrink: 0;
+  color: inherit;
+
+  svg {
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
+    font-size: 1.5rem;
+  }
+}
