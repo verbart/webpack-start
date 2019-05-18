@@ -4,7 +4,7 @@ const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  mode: process.env.NODE_ENV || 'development',
+  mode: process.env.NODE_ENV,
 
   devServer: {
     contentBase: path.join(__dirname, 'public'),
@@ -16,7 +16,7 @@ module.exports = {
   entry: './src/index.js',
 
   output: {
-    path: path.resolve(__dirname, 'public'),
+    path: path.join(__dirname, 'public'),
     filename: 'bundle.js'
   },
 
@@ -51,6 +51,7 @@ module.exports = {
             loader: MiniCssExtractPlugin.loader
           },
           'css-loader',
+          'postcss-loader',
           'sass-loader'
         ]
       },
@@ -83,8 +84,7 @@ module.exports = {
         }
       },
       inject: 'head',
-      hash: true,
-      cache: false
+      hash: true
     }),
 
     new ScriptExtHtmlWebpackPlugin({
