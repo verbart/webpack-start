@@ -10,13 +10,14 @@ module.exports = {
     contentBase: path.join(__dirname, 'public'),
     open: true,
     port: 8080,
-    overlay: true
+    overlay: true,
+    writeToDisk: true
   },
 
   entry: './src/index.js',
 
   output: {
-    path: path.join(__dirname, 'public'),
+    path: path.resolve(__dirname, 'public'),
     filename: 'bundle.js'
   },
 
@@ -47,12 +48,19 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [
-          {
-            loader: MiniCssExtractPlugin.loader
-          },
+          MiniCssExtractPlugin.loader,
           'css-loader',
-          'postcss-loader',
-          'sass-loader'
+          'resolve-url-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true,
+              sourceMapContents: false
+            }
+          },
+          {
+            loader: 'postcss-loader'
+          }
         ]
       },
 
@@ -62,7 +70,19 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'assets/images/[name].[hash].[ext]'
+              name: 'images/[name].[hash].[ext]',
+            }
+          }
+        ]
+      },
+
+      {
+        test: /\.(ttf|woff|woff2)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'fonts/[name].[ext]',
             }
           }
         ]
