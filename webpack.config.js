@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: process.env.NODE_ENV,
-
+  devtool: 'source-map',
   devServer: {
     contentBase: path.join(__dirname, 'public'),
     open: true,
@@ -49,17 +49,30 @@ module.exports = {
         test: /\.scss$/,
         use: [
           MiniCssExtractPlugin.loader,
-          'css-loader',
-          'resolve-url-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: 'resolve-url-loader',
+            options: {
+              sourceMap: true
+            }
+          },
           {
             loader: 'sass-loader',
             options: {
               sourceMap: true,
               sourceMapContents: false
             }
-          },
-          {
-            loader: 'postcss-loader'
           }
         ]
       },
@@ -111,8 +124,6 @@ module.exports = {
       defaultAttribute: 'defer'
     }),
 
-    new MiniCssExtractPlugin({
-      filename: 'style.css',
-    })
+    new MiniCssExtractPlugin()
   ]
 };
